@@ -11,7 +11,7 @@ import { Temp } from './components/finanzas/fin'
 export function App() {
 
   return (
-   
+    
     <HashRouter>
       <Routes>
         <Route path="/" element={<Index />} />

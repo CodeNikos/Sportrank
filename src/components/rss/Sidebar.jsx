@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'boxicons/css/boxicons.min.css';
 import './sidebar.css';
 import image1 from '../../assets/Logocaribes.png';
+import { Link } from 'react-router-dom';
 
 
 
@@ -56,10 +57,13 @@ export function Sidebar() {
                             </li>
 
                             <li className="nav-link">
-                                <a href="#ID" onClick={() => toggleItem(0)}>
+                                <Link to="#" onClick={(e) => {
+                                    e.preventDefault();
+                                    toggleItem(0);
+                                }}>
                                     <i className='bx bxs-group icon'></i>
                                     <span className="text nav-text">Plantilla</span>
-                                </a>
+                                </Link>
                             </li>
                             {expandedItems[0] && (
                                 <>

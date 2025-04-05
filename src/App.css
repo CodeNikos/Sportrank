@@ -1,0 +1,10 @@
+
+:root {
+  --background-color: #ececec;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  min-height: 100vh;
+}

@@ -49,11 +49,10 @@ export function Sidebar() {
                     <div className="menu">
                         <ul className="menu-links">
                             <li>
-                                <a href="/">
+                                <Link to="/">
                                     <i className='bx bx-home-alt icon'></i>
                                     <span className="text nav-text">Home</span>
-                                   
-                                </a>
+                                </Link>
                             </li>
 
                             <li className="nav-link">
@@ -68,49 +67,49 @@ export function Sidebar() {
                             {expandedItems[0] && (
                                 <>
                                     <li className="sub-item">
-                                        <a href="/add">
+                                        <Link to="/add">
                                             <i className='bx bx-plus-medical icon'></i>                                            
                                             <span className="text nav-text">Agregar</span>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="sub-item">
-                                        <a href="/players">
+                                        <Link to="/players">
                                             <i className='bx bx-desktop icon'></i>
                                             <span className="text nav-text">Mostrar</span>
-                                        </a>
+                                        </Link>
                                     </li>
                                 </>
                             )}
 
                             <li className="nav-link">
-                                <a href="/temp">
+                                <Link to="/temp">
                                     <i className='bx bx-wallet icon'></i>
                                     <span className="text nav-text">Finanzas</span>
-                                </a>
+                                </Link>
                             </li>
 
                             <li className="nav-link">
-                                <a href="/temp">
+                                <Link to="/temp">
                                     <i className='bx bx-bar-chart-alt-2 icon'></i>
                                     <span className="text nav-text">Estadísticas</span>
-                                </a>
+                                </Link>
                             </li>
 
                             <li className="nav-link">
-                                <a href="/temp">
+                                <Link to="/temp">
                                     <i className='bx bx-trophy icon'></i>
                                     <span className="text nav-text">Torneos</span>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
 
                     <div className="bottom-content">
                         <li>
-                            <a href="/temp">
+                            <Link to="/temp">
                                 <i className='bx bx-log-out icon'></i>
                                 <span className="text nav-text">Logout</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="mode">

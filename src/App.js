@@ -8,14 +8,14 @@ import { Index } from './components/home/home';
 export function App() {
 
   return (
-    <BrowserRouter>
+   
     <HashRouter>
       <Routes>
         <Route path="/" element={<Index />} />
 
       </Routes>
       </HashRouter>
-    </BrowserRouter>
+
   );
 }
 

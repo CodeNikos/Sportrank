@@ -1,0 +1,31 @@
+.index-wrapper {
+    display: flex;
+    min-height: 100vh;
+    
+}
+
+.body-container{
+    flex: 1;
+    position:relative;
+    margin-left: 30px; /* Ancho del sidebar expandido */
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    transition: margin-left 0.3s ease;
+}
+
+.horizontal{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;  /* Espacio entre elementos */
+    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no hay espacio */
+    width: 100%;
+    padding: 10px;
+}
+
+.vertical {
+    flex: 1;  /* Toma el espacio restante */
+    margin-left: 20px;  /* Espacio adicional desde el sidebar */
+    margin-top: 10px;
+}

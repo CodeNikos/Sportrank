@@ -1,6 +1,10 @@
 import React from 'react';
 import './cards.css';
 
+export function CardsContainer({ children }) {
+    return <div className="cards-container">{children}</div>;
+}
+
 export function Card({ id, imageUrl, title, description, onClick }) {
     return (
         <div className="card" onClick={() => onClick(id)}>
@@ -13,4 +17,4 @@ export function Card({ id, imageUrl, title, description, onClick }) {
             </div>
         </div>
     );
-}
+} 

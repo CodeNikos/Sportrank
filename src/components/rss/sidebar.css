@@ -340,17 +340,84 @@ body.dark .home .text {
   padding-left: 20px;
   background-color: var(--sidebar-color);
   transition: all 0.3s ease;
+  height: 50px;
 }
 
 .sub-item a {
   font-size: 0.9em;
+  padding: 10px;
 }
 
 .sub-item .icon {
   font-size: 0.9em;
 }
 
-/* Cuando el sidebar está cerrado */
+/* Nuevos estilos para los sub-items cuando el sidebar está cerrado */
 .sidebar.close .sub-item {
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar.close .sub-item .text {
   display: none;
+}
+
+.sidebar.close .sub-item .icon {
+  min-width: 88px;
+  justify-content: center;
+}
+
+/* Ajustar el hover de los sub-items */
+.sub-item:hover {
+  background-color: var(--primary-color);
+}
+
+.sub-item:hover a,
+.sub-item:hover .icon {
+  color: var(--sidebar-color);
+}
+
+/* Estilos para móvil */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 88px; /* Ancho contraído por defecto en móvil */
+    }
+
+    .sidebar .text {
+        opacity: 0;
+    }
+
+    .sidebar header .toggle {
+        display: none; /* Ocultar el botón de toggle en móvil si prefieres */
+    }
+
+    /* Ajustar el contenido principal */
+    .main-content {
+        margin-left: 88px !important;
+    }
+
+    /* Si quieres mantener la capacidad de expandir en móvil */
+    .sidebar:not(.close) {
+        width: 250px;
+    }
+
+    .sidebar:not(.close) .text {
+        opacity: 1;
+    }
+}
+
+/* Asegurar que el contenido principal se ajuste correctamente */
+.main-content {
+    margin-left: 250px;
+    transition: margin-left var(--tran-05);
+}
+
+.sidebar.close ~ .main-content {
+    margin-left: 88px;
+}
+
+/* Oculta el botón móvil en pantallas grandes */
+.mobile-toggle {
+    display: none;
 }

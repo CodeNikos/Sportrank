@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'boxicons/css/boxicons.min.css';
 import './sidebar.css';
 import image1 from '../../assets/Logocaribes.png';
 import { Link } from 'react-router-dom';
 
-
-
 export function Sidebar() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
     const [expandedItems, setExpandedItems] = useState({});
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 414) {
+                setIsSidebarClosed(true);
+            }
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleToggleSidebar = () => {
         setIsSidebarClosed(!isSidebarClosed);

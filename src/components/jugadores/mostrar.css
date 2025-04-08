@@ -70,3 +70,15 @@
     margin-top: 60px;
     
 }
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+
+    .vertical {
+        flex: 1;  /* Toma el espacio restante */
+        margin-left: 10px;  /* Espacio adicional desde el sidebar */
+        margin-top: 30px;
+        
+    }
+
+}

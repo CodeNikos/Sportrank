@@ -70,13 +70,13 @@ export function Sidebar() {
                             <li className="nav-link">
                                 <Link to="#" onClick={(e) => {
                                     e.preventDefault();
-                                    toggleItem(0);
+                                    toggleItem('plantilla');
                                 }}>
                                     <i className='bx bxs-group icon'></i>
                                     <span className="text nav-text">Plantilla</span>
                                 </Link>
                             </li>
-                            {expandedItems[0] && (
+                            {expandedItems['plantilla'] && (
                                 <>
                                     <li className="sub-item">
                                         <Link to="/add">
@@ -94,11 +94,36 @@ export function Sidebar() {
                             )}
 
                             <li className="nav-link">
-                                <Link to="/temp">
+                                <Link to="#" onClick={(e) => {
+                                    e.preventDefault();
+                                    toggleItem('finanzas');
+                                }}>
                                     <i className='bx bx-wallet icon'></i>
                                     <span className="text nav-text">Finanzas</span>
                                 </Link>
                             </li>
+                            {expandedItems['finanzas'] && (
+                                <>
+                                    <li className="sub-item">
+                                        <Link to="/ingresos">
+                                            <i className='bx bx-money icon'></i>                                            
+                                            <span className="text nav-text">Ingresos</span>
+                                        </Link>
+                                    </li>
+                                    <li className="sub-item">
+                                        <Link to="/egresos">
+                                            <i className='bx bxs-shopping-bag icon'></i>
+                                            <span className="text nav-text">Gastos</span>
+                                        </Link>
+                                    </li>
+                                    <li className="sub-item">
+                                        <Link to="/balance">
+                                            <i className='bx bx-calculator icon'></i>
+                                            <span className="text nav-text">Balance</span>
+                                        </Link>
+                                    </li>
+                                </>
+                            )}
 
                             <li className="nav-link">
                                 <Link to="/temp">
@@ -111,8 +136,15 @@ export function Sidebar() {
                                 <Link to="/temp">
                                     <i className='bx bx-trophy icon'></i>
                                     <span className="text nav-text">Torneos</span>
-                                </Link>
+                                </Link>                                
                             </li>
+
+                            <li className="nav-link">
+                                <Link to="/temp">
+                                    <i className='bx bxs-cog icon'></i>
+                                    <span className="text nav-text">Configuración</span>
+                                </Link>                                
+                            </li>                            
                         </ul>
                     </div>
 

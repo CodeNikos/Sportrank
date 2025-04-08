@@ -132,8 +132,8 @@ button[type="submit"]:disabled {
 /* Diseño responsivo */
 @media (max-width: 768px) {
     .form-container {
-        margin: 1rem;
-        padding: 1.5rem;
+        margin: 0;
+        padding: 0;
     }
 
     .player-form {
@@ -169,4 +169,94 @@ select {
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1em;
+}
+
+/* Estilos para modo oscuro */
+body.dark .form-container {
+    background: linear-gradient(to bottom, #242526, #18191a);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+body.dark .form-container h2 {
+    color: #ffffff;
+    border-bottom: 3px solid #70A9A1;
+}
+
+body.dark .player-form {
+    background: #3a3b3c;
+}
+
+body.dark .form-group label {
+    color: #ffffff;
+}
+
+body.dark .form-group input,
+body.dark .form-group select,
+body.dark .form-group textarea {
+    background-color: #242526;
+    color: #ffffff;
+    border-color: #70A9A1;
+}
+
+body.dark .form-group input:focus,
+body.dark .form-group select:focus,
+body.dark .form-group textarea:focus {
+    border-color: #85cac0;
+    box-shadow: 0 0 0 3px rgba(112, 169, 161, 0.3);
+}
+
+body.dark .form-group input:hover,
+body.dark .form-group select:hover,
+body.dark .form-group textarea:hover {
+    border-color: #85cac0;
+}
+
+/* Estilo especial para los campos de archivo en modo oscuro */
+body.dark input[type="file"] {
+    background: #242526;
+    border-color: #70A9A1;
+    color: #ffffff;
+}
+
+body.dark input[type="file"]:hover {
+    background: rgba(112, 169, 161, 0.1);
+    border-color: #85cac0;
+}
+
+/* Estilo para el botón en modo oscuro */
+body.dark button[type="submit"] {
+    background: linear-gradient(to right, #70A9A1, #5B8D86);
+}
+
+body.dark button[type="submit"]:hover:not(:disabled) {
+    background: linear-gradient(to right, #85cac0, #70A9A1);
+}
+
+body.dark button[type="submit"]:disabled {
+    background: #4a4a4a;
+    color: #888888;
+}
+
+/* Estilo para las opciones del select en modo oscuro */
+body.dark select option {
+    background-color: #242526;
+    color: #ffffff;
+}
+
+/* Estilo para el placeholder en modo oscuro */
+body.dark .form-group textarea::placeholder {
+    color: #888888;
+}
+
+/* Ajuste del scrollbar para modo oscuro */
+body.dark .form-container::-webkit-scrollbar-track {
+    background: #242526;
+}
+
+body.dark .form-container::-webkit-scrollbar-thumb {
+    background: #70A9A1;
+}
+
+body.dark .form-container::-webkit-scrollbar-thumb:hover {
+    background: #85cac0;
 }

@@ -69,6 +69,10 @@ body.dark .player-select:focus {
     box-shadow: 0 0 0 2px rgba(112, 169, 161, 0.3);
 }
 
+body.dark .h2{
+    color: #ffffff;
+}
+
 .player-select option {
     padding: 10px;
 }

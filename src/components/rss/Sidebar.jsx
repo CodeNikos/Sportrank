@@ -3,11 +3,63 @@ import 'boxicons/css/boxicons.min.css';
 import './sidebar.css';
 import image1 from '../../assets/Logocaribes.png';
 import { Link } from 'react-router-dom';
+import { cerrarSesion } from '../../components/login/authent';
+import { useNavigate } from 'react-router-dom';
+import { db } from '../../firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 export function Sidebar() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
     const [expandedItems, setExpandedItems] = useState({});
+    const navigate = useNavigate();
+    const [sidebarColor, setSidebarColor] = useState('#B1D1D3');
+    const [clubData, setClubData] = useState({
+        nombre: '',
+        deporte: ''
+    });
+
+    useEffect(() => {
+        // Aplicar colores guardados inmediatamente al montar
+        const savedSidebarColor = localStorage.getItem('sidebarColor');
+        if (savedSidebarColor) {
+            setSidebarColor(savedSidebarColor);
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.style.backgroundColor = savedSidebarColor;
+            }
+        }
+
+        const fetchClubInfo = async () => {
+            try {
+                const clubRef = doc(db, 'club', 'config');
+                const clubDoc = await getDoc(clubRef);
+
+                if (clubDoc.exists()) {
+                    const data = clubDoc.data();
+                    setClubData(data);
+                    
+                    // Guardar y aplicar el color del sidebar
+                    if (data.sidebarColor) {
+                        localStorage.setItem('sidebarColor', data.sidebarColor);
+                        setSidebarColor(data.sidebarColor);
+                        const sidebar = document.querySelector('.sidebar');
+                        if (sidebar) {
+                            sidebar.style.backgroundColor = data.sidebarColor;
+                        }
+                    }
+                    
+                    console.log('Datos del club cargados:', data.nombre, data.deporte);
+                }
+            }
+            catch (error) {
+                console.error('Error al cargar datos del club:', error);
+                toast.error('Error al cargar la configuración');
+            }
+        };
+
+        fetchClubInfo();
+    }, []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -17,19 +69,51 @@ export function Sidebar() {
         };
 
         handleResize();
-
         window.addEventListener('resize', handleResize);
-
         return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        const handleColorChange = (event) => {
+            const newColor = event.detail.sidebarColor;
+            setSidebarColor(newColor);
+            localStorage.setItem('sidebarColor', newColor);
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.style.backgroundColor = newColor;
+            }
+        };
+
+        const handleClubDataChange = (event) => {
+            setClubData(prevData => ({
+                ...prevData,
+                nombre: event.detail.nombre,
+                deporte: event.detail.deporte
+            }));
+        };
+
+        window.addEventListener('appColorsChange', handleColorChange);
+        window.addEventListener('clubDataChange', handleClubDataChange);
+        
+        return () => {
+            window.removeEventListener('appColorsChange', handleColorChange);
+            window.removeEventListener('clubDataChange', handleClubDataChange);
+        };
     }, []);
 
     const handleToggleSidebar = () => {
         setIsSidebarClosed(!isSidebarClosed);
     };
 
-    const handleModeSwitch = () => {
-        setIsDarkMode(!isDarkMode);
-        document.body.classList.toggle('dark');
+    const handleLogout = async () => {
+        try {
+            await cerrarSesion();
+            localStorage.removeItem('sidebarColor'); // Limpiar el color del sidebar
+            window.location.href = '/login'; // Forzar la redirección
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+            toast.error('Error al cerrar sesión');
+        }
     };
 
     const toggleItem = (index) => {
@@ -41,7 +125,7 @@ export function Sidebar() {
 
     return (
         <div className="sidebar-container">
-            <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`}>
+            <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`} style={{ backgroundColor: sidebarColor }}>
                 <header>
                     <div className="image-text">
                         <span className="image">
@@ -49,8 +133,8 @@ export function Sidebar() {
                         </span>
 
                         <div className="text logo-text">
-                            <span className="name">Caribes</span>
-                            <span className="profession">Ultimate Club</span>
+                            <span className="name">{clubData.nombre}</span>
+                            <span className="profession">{clubData.deporte}</span>
                         </div>
                     </div>
 
@@ -61,7 +145,7 @@ export function Sidebar() {
                     <div className="menu">
                         <ul className="menu-links">
                             <li>
-                                <Link to="/">
+                                <Link to="/home">
                                     <i className='bx bx-home-alt icon'></i>
                                     <span className="text nav-text">Home</span>
                                 </Link>
@@ -140,7 +224,7 @@ export function Sidebar() {
                             </li>
 
                             <li className="nav-link">
-                                <Link to="/temp">
+                                <Link to="/config">
                                     <i className='bx bxs-cog icon'></i>
                                     <span className="text nav-text">Configuración</span>
                                 </Link>                                
@@ -150,24 +234,13 @@ export function Sidebar() {
 
                     <div className="bottom-content">
                         <li>
-                            <Link to="/temp">
+                            <Link to="#" onClick={(e) => {
+                                e.preventDefault();
+                                handleLogout();
+                            }}>
                                 <i className='bx bx-log-out icon'></i>
                                 <span className="text nav-text">Logout</span>
                             </Link>
-                        </li>
-
-                        <li className="mode">
-                            <div className="sun-moon">
-                                <i className='bx bx-moon icon moon'></i>
-                                <i className='bx bx-sun icon sun'></i>
-                            </div>
-                            <span className="mode-text text">
-                                {isDarkMode ? 'Light mode' : 'Dark mode'}
-                            </span>
-
-                            <div className="toggle-switch" onClick={handleModeSwitch}>
-                                <span className="switch"></span>
-                            </div>
                         </li>
                     </div>
                 </div>

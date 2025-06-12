@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, where, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { toast } from 'react-toastify';
 
@@ -154,12 +154,55 @@ const useAccounts = (loadingState) => {
     return { accounts, fetchAccounts };
 };
 
+// Hook para manejar las subcuentas de una cuenta específica
+const useAccountSubAccounts = (loadingState) => {
+    const [accountSubAccounts, setAccountSubAccounts] = useState({});
+    const { handleError } = loadingState;
+
+    const fetchAccountSubAccounts = async (accountId, subGroupId, groupId) => {
+        try {
+            const subAccountsRef = collection(db, 'cuenta', accountId, 'subgrupo', subGroupId, 'cuentas', groupId, 'subcuenta');
+            
+            const q = query(
+                subAccountsRef,
+                orderBy('subcuenta', 'asc')
+            );
+            const subAccountsSnapshot = await getDocs(q);
+            
+            if (subAccountsSnapshot.empty) {
+                setAccountSubAccounts(prev => ({
+                    ...prev,
+                    [groupId]: []
+                }));
+                return;
+            }
+
+            const subAccountsList = subAccountsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            setAccountSubAccounts(prev => ({
+                ...prev,
+                [groupId]: subAccountsList
+            }));
+
+        } catch (error) {
+            console.error('Error fetching subaccounts:', error);
+            handleError(error);
+        }
+    };
+
+    return { accountSubAccounts, fetchAccountSubAccounts };
+};
+
 // Hook principal que combina los hooks específicos
 export const useAccount = () => {
     const loadingState = useLoadingState();
     const { accounts, fetchMainAccounts } = useMainAccounts(loadingState);
     const { subAccounts, fetchSubAccounts } = useSubAccounts(loadingState);
     const { accounts: thirdLevelAccounts, fetchAccounts } = useAccounts(loadingState);
+    const { accountSubAccounts, fetchAccountSubAccounts } = useAccountSubAccounts(loadingState);
 
     useEffect(() => {
         fetchMainAccounts();
@@ -172,7 +215,9 @@ export const useAccount = () => {
         subAccounts,
         fetchAcct2: fetchSubAccounts,
         thirdLevelAccounts,
-        fetchAcct3: fetchAccounts
+        fetchAcct3: fetchAccounts,
+        accountSubAccounts,
+        fetchAccountSubAccounts
     };
 };
 

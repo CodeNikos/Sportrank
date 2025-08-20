@@ -16,24 +16,7 @@
 }
 
 
-/* Comentado temporalmente para evitar conflictos con cards.css
-.card {
-    width: 200px;
-    height: 350px;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    background: #65a4b8;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    padding: 20px;
-    position: relative;
-}
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-}
 
 /* Efecto de brillo en hover */
 .card::before {
@@ -55,7 +38,7 @@
 .card:hover::before {
     left: 100%;
 }
-*/
+
 
 .horizontal{
     display: flex;

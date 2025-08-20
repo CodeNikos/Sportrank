@@ -1,0 +1,43 @@
+.carousel {
+    height: 250px;
+    width: 500px;
+}
+
+.carousel .carousel-inner {
+    height: 100%;
+}
+
+.carousel .carousel-item {
+    height: 100%;
+}
+
+.carousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+/* Ocultar controles y flechas del carrusel */
+.carousel .control-arrow,
+.carousel .carousel-status {
+    display: none;
+}
+
+/* Ajustar el contenedor del carrusel */
+.carousel .slider-wrapper {
+    height: 100%;
+}
+
+.carousel .slider {
+    height: 100%;
+}
+
+/* Asegurar que las imágenes mantengan su proporción */
+.carousel .slide {
+    height: 100%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

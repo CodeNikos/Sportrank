@@ -1,0 +1,48 @@
+:root {
+  --background-color: #ececec;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
+}
+
+.home-wrapper {
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 0;
+    transition: margin-left 0.3s;
+    background-color: var(--background-color);
+}
+
+@media screen and (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding-top: 60px; /* Espacio para el botón móvil */
+    }
+}

@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Login } from './components/login/login';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { obtenerUsuarioActual } from './components/login/authent';
 import { useEffect, useState } from 'react';
 import { Index } from './components/home/home';
 import { Jugador } from './components/jugadores/jugador';
@@ -10,6 +9,8 @@ import { ShowPub } from './components/jugadores/mostrar_pub';
 import { Temp, Ingresos, Egresos, Balance } from './components/finanzas/fin';
 import { Signup } from './components/login/signup';
 import { Config } from './components/config/config';
+import { auth } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 
 function App() {
@@ -17,19 +18,17 @@ function App() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const currentUser = await obtenerUsuarioActual();
-                setUser(currentUser);
-            } catch (error) {
-                console.error('Error al verificar autenticación:', error);
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            console.log('App.js - Auth state changed:', user ? 'Usuario autenticado' : 'Usuario no autenticado');
+            setUser(user);
+            setLoading(false);
+        }, (error) => {
+            console.error('Error al verificar autenticación:', error);
+            setUser(null);
+            setLoading(false);
+        });
 
-        checkAuth();
+        return () => unsubscribe();
     }, []);
 
     if (loading) {
@@ -44,7 +43,13 @@ function App() {
                         {/* Rutas públicas */}
                         <Route path="/login" element={!user ? <Login /> : <Navigate to="/home" replace />} />
                         <Route path="/signup" element={<Signup />} />
-                        <Route path="/players" element={<ShowPub />} />
+                        <Route path="/players" element={
+                            (() => {
+                                console.log('Renderizando /players - user:', user ? 'autenticado' : 'no autenticado');
+                                return user ? <Show /> : <ShowPub />;
+                            })()
+                        } /> 
+                        
 
                         {/* Rutas protegidas */}
                         <Route element={<ProtectedRoute />}>

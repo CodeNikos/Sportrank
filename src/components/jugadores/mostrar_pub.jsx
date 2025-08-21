@@ -5,13 +5,13 @@ import { Sidebar } from '../rss/Sidebar';
 import { db, storage } from '../../firebase';
 import { collection, getDocs} from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
-import { EditPlayer } from './EditPlayer';
 import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 
 export function ShowPub() {
+    console.log('Componente ShowPub se está ejecutando');
     const [players, setPlayers] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate();
@@ -124,6 +124,7 @@ export function ShowPub() {
         <div className="home-wrapper">
             <Sidebar />
             <div className="body-container">
+                
                 <div style={{ marginBottom: '20px', textAlign: 'center' }}>
                     <button 
                         onClick={downloadPlayersExcel}

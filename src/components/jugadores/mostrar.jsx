@@ -11,9 +11,16 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 
 export function Show() {
+    console.log('Componente Show se está ejecutando');
     const [players, setPlayers] = useState([]);
     const [selectedPlayerId, setSelectedPlayerId] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    const handleCardClick = (playerId) => {
+        console.log('Card clicked:', playerId);
+        console.log('isAuthenticated:', isAuthenticated);
+        setSelectedPlayerId(playerId);
+    };
 
     useEffect(() => {
 
@@ -48,6 +55,7 @@ export function Show() {
 
         // Suscribirse a cambios de autenticación
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+            console.log('Auth state changed:', user);
             setIsAuthenticated(!!user);
         });
 
@@ -61,7 +69,9 @@ export function Show() {
         <div className="home-wrapper">
             <Sidebar />
             <div className="body-container">
+               
                 <CardsContainer>
+                    {console.log('Rendering players:', players.length)}
                     {players.map((player) => (
                         <Card 
                             key={player.id}
@@ -69,7 +79,7 @@ export function Show() {
                             imageUrl={player.playerpic}
                             title={`${player.nombre} ${player.apellido}`}
                             description={player.numero}
-                            onClick={setSelectedPlayerId}
+                            onClick={handleCardClick}
                         />
                     ))}
                 </CardsContainer>
@@ -77,7 +87,7 @@ export function Show() {
             {selectedPlayerId && (
                 <EditPlayer 
                     playerId={selectedPlayerId} 
-                    canEdit={isAuthenticated}
+                    canEdit={true}
                     onClose={() => setSelectedPlayerId(null)}
                 />
             )}

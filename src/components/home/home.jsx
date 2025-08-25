@@ -1,15 +1,10 @@
 import React from 'react';
 import './home.css';
-import './home.css';
-import { Sidebar } from '../rss/Sidebar';
-
-
+import { Show } from '../jugadores/mostrar';
+import { ShowPub } from '../jugadores/mostrar_pub';
 
 export function Index() {
-
     return (
-        <div className="home-wrapper">
-            <Sidebar />          
-        </div>
+        <ShowPub />
     );
 }

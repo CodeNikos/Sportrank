@@ -5,16 +5,32 @@ import { Sidebar } from '../rss/Sidebar';
 import { db, storage } from '../../firebase';
 import { collection, getDocs} from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
+import { EditPlayer } from './EditPlayer';
 import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { NotificationContainer } from '../common/Notification';
+import { useNotifications } from '../../hooks/useNotifications';
 
 
 export function ShowPub() {
     console.log('Componente ShowPub se está ejecutando');
     const [players, setPlayers] = useState([]);
+    const [selectedPlayerId, setSelectedPlayerId] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate();
+    const { notifications, removeNotification, showWarning, showError } = useNotifications();
+
+    const handleCardClick = (playerId) => {
+        if (isAuthenticated) {
+            console.log('Card clicked:', playerId);
+            setSelectedPlayerId(playerId);
+        } else {
+            // Si no está autenticado, mostrar notificación y redirigir al login
+            showWarning('Debes iniciar sesión para editar jugadores');
+            handleLogin();
+        }
+    };
 
     useEffect(() => {
 
@@ -66,7 +82,7 @@ export function ShowPub() {
 
     const downloadPlayersExcel = () => {
         if (!isAuthenticated) {
-            alert('Debes iniciar sesión para descargar la plantilla de jugadores');
+            showWarning('Debes iniciar sesión para descargar la plantilla de jugadores');
             handleLogin();
             return;
         }
@@ -86,7 +102,9 @@ export function ShowPub() {
             'telefonoEmergencia',
             'alergias',
             'condicionMedica',
-            'numero'
+            'numero',
+            'playerpic',
+            'certificadoUrl'
         ].join(',');
 
         // Convertir los datos de players a filas CSV
@@ -103,7 +121,9 @@ export function ShowPub() {
             `"${player.telefonoEmergencia || ''}"`,
             `"${player.alergias || ''}"`,
             `"${player.condicionMedica || ''}"`,
-            `"${player.numero || ''}"`
+            `"${player.numero || ''}"`,
+            `"${player.playerpic || ''}"`,
+            `"${player.certificadoUrl || ''}"`
         ].join(','));
 
         const csvContent = BOM + headers + '\n' + rows.join('\n');
@@ -118,6 +138,9 @@ export function ShowPub() {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
+        
+        // Mostrar notificación de éxito
+        showSuccess('Plantilla de jugadores descargada exitosamente');
     };
 
     return (
@@ -154,12 +177,22 @@ export function ShowPub() {
                             imageUrl={player.playerpic}
                             title={`${player.nombre} ${player.apellido}`}
                             description={player.numero}
-                            onClick={() => {}} // Función vacía para evitar errores
+                            onClick={handleCardClick}
                         />
                     ))}
                 </CardsContainer>
             </div>
+            {selectedPlayerId && isAuthenticated && (
+                <EditPlayer 
+                    playerId={selectedPlayerId} 
+                    canEdit={true}
+                    onClose={() => setSelectedPlayerId(null)}
+                />
+            )}
+            <NotificationContainer 
+                notifications={notifications}
+                removeNotification={removeNotification}
+            />
         </div>
     );
-
 }

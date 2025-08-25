@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { db, storage } from '../../firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { useNotifications } from '../../hooks/useNotifications'
 import './EditPlayer.css';
 
 export function EditPlayer({ playerId, onClose, canEdit = true }) {
@@ -11,6 +12,7 @@ export function EditPlayer({ playerId, onClose, canEdit = true }) {
     const [certificadoImage, setCertificadoImage] = useState(null);
     const fileInputRef = useRef(null);
     const certificadoInputRef = useRef(null);
+    const { notifications,  removeNotification, showWarning, showError } = useNotifications();
 
     useEffect(() => {
         const fetchPlayer = async () => {

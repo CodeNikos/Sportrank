@@ -41,7 +41,7 @@ export const PlayersConfig = () => {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'plantilla_jugadores.csv');
+        link.setAttribute('download', 'plantilla_jugadores_carga.csv');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

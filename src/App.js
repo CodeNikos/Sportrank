@@ -43,12 +43,7 @@ function App() {
                         {/* Rutas públicas */}
                         <Route path="/login" element={!user ? <Login /> : <Navigate to="/home" replace />} />
                         <Route path="/signup" element={<Signup />} />
-                        <Route path="/players" element={
-                            (() => {
-                                console.log('Renderizando /players - user:', user ? 'autenticado' : 'no autenticado');
-                                return user ? <Show /> : <ShowPub />;
-                            })()
-                        } /> 
+                        <Route path="/players" element={<ShowPub />} /> 
                         
 
                         {/* Rutas protegidas */}

@@ -36,9 +36,10 @@ export function Signup() {
         }
 
         try {
-              // Crear usuario en Authentication
-              const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
-              const uid = userCredential.user.uid;
+            // Crear usuario en Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
+            const uid = userCredential.user.uid;
+            
             // Registrar usuario en Firestore
             await addDoc(collection(db, "users"), {
                 user: user.email,
@@ -47,6 +48,9 @@ export function Signup() {
                 rol: "Usuario"
             });
 
+            // Cerrar sesión inmediatamente después del registro
+            await auth.signOut();
+            
             navigate('/login');
         } catch (error) {
             console.error("Error en el registro:", error);

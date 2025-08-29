@@ -19,7 +19,7 @@ export function ShowPub() {
     const [selectedPlayerId, setSelectedPlayerId] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate();
-    const { notifications, removeNotification, showWarning, showError } = useNotifications();
+    const { notifications, removeNotification, showWarning, showError, showSuccess } = useNotifications();
 
     const handleCardClick = (playerId) => {
         if (isAuthenticated) {
@@ -104,6 +104,7 @@ export function ShowPub() {
             'condicionMedica',
             'numero',
             'playerpic',
+            'certificacionWFDF',
             'certificadoUrl'
         ].join(',');
 
@@ -123,6 +124,7 @@ export function ShowPub() {
             `"${player.condicionMedica || ''}"`,
             `"${player.numero || ''}"`,
             `"${player.playerpic || ''}"`,
+            `"${player.certificacionWFDF || ''}"`,
             `"${player.certificadoUrl || ''}"`
         ].join(','));
 
